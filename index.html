@@ -1,13 +1,82 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <meta charset="UTF-8" />
+    <title>Vue Mastery</title>
+    <!-- Import Styles -->
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <!-- Import Vue.js -->
+    <script src="https://unpkg.com/vue@next"></script>
   </head>
   <body>
-    <h1 class="text-centet" mt-5 display-4 text-primary>Hello, world! con GitHub Pages</h1>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <div id="app">
+      <div class="nav-bar"></div>
+      <div class="carro">Carrito({{ carro }})</div>
+
+      <div class="cart">Cart({{ cart }})</div>
+
+      <div class="product-display">
+        <div class="product-container">
+          <div class="product-image">
+            <img :src="image">
+          </div>
+          <div class = "product-info">
+            <h1>{{ producto }}</h1>
+            <button 
+              class="button" 
+              :class="{ disabledButton: !inStock }"
+              :disabled="!inStock"
+              v-on:click="cart += 1">
+              Add Cart
+            </button>
+            <button class="button" v-on:click="cart -= 1">Remove Cart</button>
+            <p v-show="inStock">{{descripcion}}</p>
+            <div 
+              v-for="variant in variantes" 
+              :clave="variant.id" 
+              @mouseover="updateImage(variant.image)"
+              class="color-circle"
+              :class="[ isActive ? activeClassc: '' ]"
+              :style="{ backgroundColor: variant.color }">
+              {{variant.color}} 
+            </div>          
+            <p v-if="inventario > 10">In Stock</p>
+            <p v-else-if="inventario <= 10 && inventario > 0">Ultimas Unidades</p>
+            <p v-else>Out of Stock</p>
+            <div 
+              v-for="variant in variantes"
+              :key="variant.id"
+              v-on:mouseover="updateImage(variant.image)"
+              class="color-circle"
+              :style="styles">
+              {{variant.id}} </div>
+            <button 
+              class="button" 
+              v-on:click="add2Cart">
+              Agregar a carrito
+            </button>
+            <button 
+              class="button" 
+              @click="removeCart">
+              Sacar del carrito
+            </button>
+            <p v-if="OnSale">OFERTON!!</p>
+            <ul>
+                <li v-for="detail in detalles">{{detail}}</li>
+            </ul>
+            <ul>
+                <li v-for="size in talles">{{size}}</li>
+            </ul>
+            <a v-bind:href="web">Hecho por Bestpampa!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Import App -->
+    <script src="./main.js"></script>
+    <!-- Mount App -->
+    <script>
+      const mountedApp = app.mount('#app')
+    </script>
   </body>
 </html>
