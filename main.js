@@ -2,12 +2,14 @@ const app = Vue.createApp({
     data() {
         return {
             producto: 'Socks',
+            marca: 'Vue Mastery',
+            selectedVariant: 0,
             descripcion: '80% lana y 20% polyester',
-            image: './assets/images/socks_green.jpg',
-            web: 'http://www.clarin.com',
-            inStock: true,
+            imagen: './assets/images/socks_green.jpg',
+            web: 'https://sc.epb.com.ar',
+            enStock: true,
             activeClass: false,
-            inventario: 100,
+            inventario: 50,
             OnSale: true,
             cart: 0,
             carro: 0,
@@ -18,22 +20,38 @@ const app = Vue.createApp({
                 fontsize: '14px'
             },
             variantes: [
-                { id: 2234, color: 'green', image: './assets/images/socks_green.jpg' },
-                { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg' },
+                { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', quantity: 50 },
+                { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 },
             ]
         }
     },
     methods: {
         add2Cart() {
             this.carro += 1
+            this.inventario -=9
         },
         removeCart() {
             if (this.carro >= 1) (
-                this.carro -= 1
+                this.carro -= 1,
+                this.inventario +=9
             )
         },
         updateImage(variantImage) {
             this.image = variantImage
+        },
+        updateVariant(index) {
+            this.selectedVariant = index
+        }
+    },
+    computed: {
+        titulo() {
+            return this.marca + ' ' + this.producto
+        },
+        image() {
+            return this.variantes[this.selectedVariant].image
+        },
+        inStock() {
+            return this.variantes[this.selectedVariant].quantity
         }
     }
 
